@@ -1,7 +1,6 @@
-
 # Car Management Application
 
-This project is a Car Management Application built with the **MERN stack (MongoDB, Express, React, Node.js)** and **JWT Authentication**. The application allows users to manage cars, including adding, editing, deleting, and viewing cars. Users can only manage their own cars after logging in. The project also uses **Firebase** for image storage and **Tailwind CSS** for styling.
+This project is a **Car Management Application** built with the **MERN stack** (MongoDB, Express, React, Node.js) and **JWT Authentication**. The application allows users to manage cars, including adding, editing, deleting, and viewing cars. Users can only manage their own cars after logging in. The project also uses **Firebase** for image storage and **Tailwind CSS** for styling.
 
 ## Features
 
@@ -20,17 +19,79 @@ This project is a Car Management Application built with the **MERN stack (MongoD
 - **Image Storage**: Firebase Storage
 - **Deployment**: Backend and frontend are deployed separately on Render
 
-## Backend URL
+## Deployment URLs
 
-The backend for this project is deployed on Render and can be accessed at the following URL:
+- **Backend API**: [https://car-backend-bm7z.onrender.com](https://car-backend-bm7z.onrender.com)
+- **Frontend**: [https://car-list-j0gy.onrender.com/](https://car-list-j0gy.onrender.com/)
 
-- [Backend API](https://car-backend-bm7z.onrender.com)
+## How to Run Locally
 
-## Frontend URL
+Follow these steps to run the project on your local machine.
 
-The frontend is also deployed separately on Render and can be accessed at the following URL:
+### 1. Clone the Repository
 
-- [Car Management App](https://car-list-j0gy.onrender.com/)
+```bash
+git clone https://github.com/techjmi/car-list.git
+cd car-list
+```
+
+### 2. Backend Setup
+
+1. Navigate to the backend folder:
+
+    ```bash
+    cd backend
+    ```
+
+2. Install the required dependencies:
+
+    ```bash
+    npm install
+    ```
+
+3. Set up environment variables:
+
+    - Create a `.env` file in the `backend` directory and add the following:
+
+    ```env
+    JWT_SECRET=your_jwt_secret
+    MONGODB_URI=your_mongodb_connection_string
+    FIREBASE_BUCKET_URL=your_firebase_storage_url
+    ```
+
+4. Run the backend:
+
+    ```bash
+    npm start
+    ```
+
+The backend will be running on `http://localhost:5000`.
+
+### 3. Frontend Setup
+
+1. Navigate to the frontend folder:
+
+    ```bash
+    cd frontend
+    ```
+
+2. Install the required dependencies:
+
+    ```bash
+    npm install
+    ```
+
+3. Run the frontend:
+
+    ```bash
+    npm start
+    ```
+
+The frontend will be running on `http://localhost:3000`.
+
+Now, you can visit `http://localhost:3000` in your browser to use the Car Management Application locally.
+
+---
 
 ## API Documentation
 
@@ -41,8 +102,10 @@ The frontend is also deployed separately on Render and can be accessed at the fo
   - **Request Body**: 
     ```json
     {
-      "email": "user@example.com",
-      "password": "yourpassword"
+      "fullName": "John Doe",
+      "email": "johndoe@example.com",
+      "profile_pic": "https://example.com/johndoe.jpg", 
+      "password": "password123"
     }
     ```
   - **Response**: Success message or error.
@@ -52,8 +115,8 @@ The frontend is also deployed separately on Render and can be accessed at the fo
   - **Request Body**: 
     ```json
     {
-      "email": "user@example.com",
-      "password": "yourpassword"
+      "email": "johndoe@example.com",
+      "password": "password123"
     }
     ```
   - **Response**:  
@@ -124,7 +187,7 @@ The frontend is a React-based application that communicates with the backend to 
 - **Add Car**: A form to add a new car (only accessible to authenticated users).
 - **User's Car List**: A page that shows only the cars created by the logged-in user.
 - **Edit Car**: Edit the details of a car created by the logged-in user.
-  
+
 ## Environment Variables
 
 You will need the following environment variables for the backend:
@@ -132,14 +195,14 @@ You will need the following environment variables for the backend:
 - **JWT_SECRET**: Secret key for signing JWT tokens.
 - **FIREBASE_BUCKET_URL**: Firebase storage URL for image uploads.
 - **MONGODB_URI**: MongoDB connection string.
-  
-Make sure to configure these in your deployment settings on Render.
+
+Make sure to configure these in your `.env` file.
 
 ## Testing the APIs with Postman
 
-To test the API endpoints, use the following steps:
+To test the API endpoints, follow these steps:
 
-1. **Sign Up**: Send a `POST` request to `/api/signup` with user credentials.
+1. **Sign Up**: Send a `POST` request to `/api/signup` with the user data (name, email, password).
 2. **Sign In**: Send a `POST` request to `/api/signin` to get the JWT token.
 3. **Authenticated Requests**: Use the `Authorization: Bearer <JWT_TOKEN>` header for requests that require authentication (like creating, editing, or deleting cars).
 4. **Public Access**: Endpoints like `/car/car-list` and `/car/car-details/{id}` can be accessed without authentication.
@@ -186,15 +249,3 @@ You can view my portfolio here:
 - [Md Shamim Akhter - Portfolio](https://shamim-portfolio-u1yp.onrender.com/)
 
 The portfolio is fully responsive and showcases my skills, projects, and professional experience.
-
-
-
-
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
