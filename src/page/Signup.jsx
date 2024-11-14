@@ -21,28 +21,31 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { fullName, email, password } = formData;
+    
     // Basic validation
     if (!fullName || !email || !password) {
       setError("Please fill in all fields");
       return;
     }
+  
     setError("");
     setLoading(true);
+  
     try {
       const response = await SignUp(formData); // Pass formData to the API call
-      // console.log("the res", response.data);
+      
       if (response.status === 201) {
-        // console.log("Signup successful:", response.data);
-        formData({
+        // Reset form data
+        setFormData({
           fullName: "",
           email: "",
           password: "",
-        })
-        navigate('/sign-in')
+        });
+        
+        // Navigate to the sign-in page after successful signup
+        navigate('/sign-in');
       } else {
-        setError(
-          response.data.message || "Something went wrong. Please try again."
-        );
+        setError(response.data.message || "Something went wrong. Please try again.");
       }
     } catch (err) {
       console.error("Error during signup:", err);
@@ -51,6 +54,7 @@ const Signup = () => {
       setLoading(false);
     }
   };
+  
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
