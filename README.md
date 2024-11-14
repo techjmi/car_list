@@ -1,3 +1,4 @@
+
 # Car Management Application
 
 This project is a **Car Management Application** built with the **MERN stack** (MongoDB, Express, React, Node.js) and **JWT Authentication**. The application allows users to manage cars, including adding, editing, deleting, and viewing cars. Users can only manage their own cars after logging in. The project also uses **Firebase** for image storage and **Tailwind CSS** for styling.
@@ -24,15 +25,20 @@ This project is a **Car Management Application** built with the **MERN stack** (
 - **Backend API**: [https://car-backend-bm7z.onrender.com](https://car-backend-bm7z.onrender.com)
 - **Frontend**: [https://car-list-j0gy.onrender.com/](https://car-list-j0gy.onrender.com/)
 
+## Repositories
+
+- **Backend Repository**: [Car Management Backend](https://github.com/your-username/car-management-backend)
+- **Frontend Repository**: [Car Management Frontend](https://github.com/your-username/car-management-frontend)
+
 ## How to Run Locally
 
 Follow these steps to run the project on your local machine.
 
-### 1. Clone the Repository
+### 1. Clone the Repositories
 
 ```bash
-git clone https://github.com/techjmi/car-list.git
-cd car-list
+git clone https://github.com/your-username/car-backend.git
+git clone https://github.com/your-username/car-list.git
 ```
 
 ### 2. Backend Setup
@@ -40,7 +46,7 @@ cd car-list
 1. Navigate to the backend folder:
 
     ```bash
-    cd backend
+    cd car-management-backend
     ```
 
 2. Install the required dependencies:
@@ -72,7 +78,7 @@ The backend will be running on `http://localhost:5000`.
 1. Navigate to the frontend folder:
 
     ```bash
-    cd frontend
+    cd car-management-frontend
     ```
 
 2. Install the required dependencies:
