@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import { storage } from '../firebase'; 
-import { postCar } from '../service/api';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { storage } from "../firebase";
+import { postCar } from "../service/api";
+import { useNavigate } from "react-router-dom";
 
-const Carform = ({ onSubmit }) => {
+const Carform = () => {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
+    title: "",
+    description: "",
     tags: {
-      car_type: '',
-      company: '',
-      dealer: '',
+      car_type: "",
+      company: "",
+      dealer: "",
     },
     images: [],
   });
-  
+
   const [uploadProgress, setUploadProgress] = useState([]);
-  const [error, setError] = useState('');
-  const{navigate}= useNavigate()
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,10 +36,10 @@ const Carform = ({ onSubmit }) => {
   const handleImageChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     if (formData.images.length + selectedFiles.length > 10) {
-      setError('You can only upload a maximum of 10 images');
+      setError("You can only upload a maximum of 10 images");
       return;
     }
-    setError('');
+    setError("");
     setFormData((prevData) => ({
       ...prevData,
       images: [...prevData.images, ...selectedFiles],
@@ -46,37 +51,42 @@ const Carform = ({ onSubmit }) => {
     const imageUrls = [];
     setUploadProgress(new Array(formData.images.length).fill(0));
 
-    // Loop through each image and upload it
     for (let i = 0; i < formData.images.length; i++) {
       const file = formData.images[i];
-      const storageRef = ref(storage, `cars/${new Date().getTime()}_${file.name}`);
-      // console.log(storageRef)
+      const storageRef = ref(
+        storage,
+        `cars/${new Date().getTime()}_${file.name}`
+      );
+
       const uploadTask = uploadBytesResumable(storageRef, file);
 
-      uploadTask.on(
-        'state_changed', 
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setUploadProgress((prevProgress) => {
-            const updatedProgress = [...prevProgress];
-            updatedProgress[i] = progress.toFixed(0);
-            return updatedProgress;
-          });
-        },
-        (error) => {
-          setError('Image upload failed');
-          console.error(error);
-        },
-        async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          imageUrls.push(downloadURL);
-          if (imageUrls.length === formData.images.length) {
-            // Once all images are uploaded, submit the form
-            onSubmit({ ...formData, images: imageUrls });
+      await new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setUploadProgress((prevProgress) => {
+              const updatedProgress = [...prevProgress];
+              updatedProgress[i] = progress.toFixed(0);
+              return updatedProgress;
+            });
+          },
+          (error) => {
+            console.error("Image upload failed:", error);
+            setError("Image upload failed");
+            reject(error);
+          },
+          async () => {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            imageUrls.push(downloadURL);
+            resolve();
           }
-        }
-      );
+        );
+      });
     }
+
+    return imageUrls;
   };
 
   const handleRemoveImage = (index) => {
@@ -86,23 +96,23 @@ const Carform = ({ onSubmit }) => {
     }));
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleUploadImages();
-   try {
-    const response = await postCar(updatedFormData);
+    try {
+      const imageUrls = await handleUploadImages();
+      const updatedFormData = { ...formData, images: imageUrls };
 
-    if (response.status === 200) {
-      // Redirect to home page after successful submission
-     navigate('/')
-    } else {
-      console.error("Failed to submit form data");
+      const response = await postCar(updatedFormData);
+
+      if (response.status === 200) {
+        navigate("/");
+      } else {
+        setError("Failed to submit form data");
+      }
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+      setError("Error occurred while submitting the form");
     }
-   } catch (error) {
-    console.error("Error submitting form data:", error);
-   }
-
-    
   };
 
   return (
@@ -110,7 +120,6 @@ const Carform = ({ onSubmit }) => {
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">Add New Car</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Title Input */}
           <div>
             <label className="block text-gray-700">Title</label>
             <input
@@ -123,7 +132,6 @@ const Carform = ({ onSubmit }) => {
             />
           </div>
 
-          {/* Description Input */}
           <div>
             <label className="block text-gray-700">Description</label>
             <textarea
@@ -136,63 +144,61 @@ const Carform = ({ onSubmit }) => {
             />
           </div>
 
-          {/* Car Type Input */}
           <div>
             <label className="block text-gray-700">Car Type</label>
             <input
               type="text"
               name="car_type"
               value={formData.tags.car_type}
-              onChange={(e) => {
-                setFormData(prevData => ({
+              onChange={(e) =>
+                setFormData((prevData) => ({
                   ...prevData,
-                  tags: { ...prevData.tags, car_type: e.target.value }
-                }));
-              }}
+                  tags: { ...prevData.tags, car_type: e.target.value },
+                }))
+              }
               className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
               required
             />
           </div>
 
-          {/* Company Input */}
           <div>
             <label className="block text-gray-700">Company</label>
             <input
               type="text"
               name="company"
               value={formData.tags.company}
-              onChange={(e) => {
-                setFormData(prevData => ({
+              onChange={(e) =>
+                setFormData((prevData) => ({
                   ...prevData,
-                  tags: { ...prevData.tags, company: e.target.value }
-                }));
-              }}
+                  tags: { ...prevData.tags, company: e.target.value },
+                }))
+              }
               className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
               required
             />
           </div>
 
-          {/* Dealer Input */}
           <div>
             <label className="block text-gray-700">Dealer</label>
             <input
               type="text"
               name="dealer"
               value={formData.tags.dealer}
-              onChange={(e) => {
-                setFormData(prevData => ({
+              onChange={(e) =>
+                setFormData((prevData) => ({
                   ...prevData,
-                  tags: { ...prevData.tags, dealer: e.target.value }
-                }));
-              }}
+                  tags: { ...prevData.tags, dealer: e.target.value },
+                }))
+              }
               className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
               required
             />
           </div>
 
-          {/* Image Upload */}
           <div>
-            <label className="block text-gray-700 font-medium">Images (Max: 10)</label>
+            <label className="block text-gray-700 font-medium">
+              Images (Max: 10)
+            </label>
             <input
               type="file"
               multiple
@@ -216,12 +222,16 @@ const Carform = ({ onSubmit }) => {
                   >
                     x
                   </button>
-                  <progress value={uploadProgress[index] || 0} max="100" className="w-full" />
+                  <progress
+                    value={uploadProgress[index] || 0}
+                    max="100"
+                    className="w-full"
+                  />
                 </div>
               ))}
             </div>
           </div>
-          
+
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-200"

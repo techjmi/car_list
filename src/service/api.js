@@ -1,14 +1,11 @@
 import axios from 'axios';
-
-const url = 'https://car-backend-bm7z.onrender.com/car';  // Base URL for car-related routes
-const url_user = 'https://car-backend-bm7z.onrender.com/api';  // Base URL for user-related routes
-
+const url_user = 'https://car-backend-bm7z.onrender.com/api';  
+const url = 'https://car-backend-bm7z.onrender.com/car';  
 // User signup
 export const SignUp = async (data) => {
   try {
     const response = await axios.post(`${url_user}/signup`, data);
-    // console.log(response.data);
-    return response;  // Return response for further handling
+    return response;
   } catch (error) {
     console.error("Error while posting the data:", error.message);
   }
@@ -17,21 +14,25 @@ export const SignUp = async (data) => {
 // Fetch user data
 export const fetchUserData = async () => {
   try {
-    const response = await axios.get(`${url_user}/me`, { withCredentials: true });
-    // console.log('fetch user', response.data);
-    return response.data;  // Return user data
+    const response = await axios.get(`${url_user}/me`, {
+      withCredentials: true,
+      credentials: 'include',
+    });
+    return response.data;
   } catch (error) {
     console.error("Error fetching user data:", error);
-    throw error;  // Throw error for further handling
+    throw error;
   }
 };
 
 // User signin
 export const signIn = async (data) => {
   try {
-    const response = await axios.post(`${url_user}/signin`, data, { withCredentials: true });
-    // console.log(response.data);
-    return response;  // Return response for further handling
+    const response = await axios.post(`${url_user}/signin`, data,{
+      credentials: 'include',
+      withCredentials: true 
+    });
+    return response;
   } catch (error) {
     console.error("Error while posting the data:", error.message);
   }
@@ -40,20 +41,23 @@ export const signIn = async (data) => {
 // User logout
 export const Logout = async () => {
   try {
-    const response = await axios.post(`${url_user}/logout`, {}, { withCredentials: true });
-    return response;  // Return response if successful
+    const response = await axios.post(`${url_user}/logout`, null, {
+      withCredentials: true,
+    });
+    return response;
   } catch (error) {
     console.error('Logout error:', error);
-    throw error;  // Throw error for further handling
+    throw error;
   }
 };
 
 // Post a new car
 export const postCar = async (data) => {
   try {
-    const response = await axios.post(`${url}/create`, data, { withCredentials: true });
-    // console.log(response.data);
-    return response;  // Return response for further handling
+    const response = await axios.post(`${url}/create`, data, {
+      withCredentials: true,
+    });
+    return response.data;
   } catch (error) {
     console.error("Error while posting the data:", error.message);
   }
@@ -63,8 +67,7 @@ export const postCar = async (data) => {
 export const fetchCar = async () => {
   try {
     const response = await axios.get(`${url}/car_list`);
-    // console.log(response.data);
-    return response.data;  // Return list of cars
+    return response.data;
   } catch (error) {
     console.error("Error while fetching the cars:", error.message);
   }
@@ -74,8 +77,7 @@ export const fetchCar = async () => {
 export const fetchDetails = async (id) => {
   try {
     const response = await axios.get(`${url}/car-details/${id}`);
-    // console.log(response.data);
-    return response.data;  // Return car details
+    return response.data;
   } catch (error) {
     console.error("Error while fetching the car details:", error.message);
   }
@@ -84,9 +86,10 @@ export const fetchDetails = async (id) => {
 // Fetch user's own cars
 export const fetchUserCars = async () => {
   try {
-    const response = await axios.get(`${url}/user_car_list`, { withCredentials: true });
-    // console.log('the car data of user is', response);
-    return response.data;  // Return user's cars
+    const response = await axios.get(`${url}/user_car_list`, {
+      withCredentials: true,
+    });
+    return response.data;
   } catch (error) {
     throw new Error('Unable to fetch cars');
   }
@@ -95,8 +98,10 @@ export const fetchUserCars = async () => {
 // Delete a specific car
 export const deleteCar = async (carId) => {
   try {
-    const response = await axios.delete(`${url}/delete/${carId}`, { withCredentials: true });
-    return response.data;  // Return response for further handling
+    const response = await axios.delete(`${url}/delete/${carId}`, {
+      withCredentials: true,
+    });
+    return response.data;
   } catch (error) {
     console.error('Error deleting car:', error);
     throw new Error('Failed to delete car');
@@ -106,9 +111,10 @@ export const deleteCar = async (carId) => {
 // Edit a specific car's details
 export const EditCarAPI = async (data, id) => {
   try {
-    const response = await axios.put(`${url}/edit/${id}`, data, { withCredentials: true });
-    // console.log(response.data);
-    return response;  // Return response for further handling
+    const response = await axios.put(`${url}/edit/${id}`, data, {
+      withCredentials: true,
+    });
+    return response;
   } catch (error) {
     console.error("Error while posting the data:", error.message);
   }
