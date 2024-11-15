@@ -1,5 +1,6 @@
 import axios from 'axios';
-const url_user = 'https://car-backend-bm7z.onrender.com/api';  
+const url_user = 'https://car-backend-bm7z.onrender.com/api'; 
+// const url_user='http://localhost:5000/api' 
 const url = 'https://car-backend-bm7z.onrender.com/car';  
 // User signup
 export const SignUp = async (data) => {
