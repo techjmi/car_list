@@ -23,27 +23,28 @@ const SearchComponent = ({ cars }) => {
 
   return (
     <div className="relative">
-      <input
-        type="text"
-        value={query}
-        onChange={handleSearch}
-        placeholder="Enter 3 Char...."
-        className="bg-gray-700 text-white py-2 pl-10 pr-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
-      />
-      <AiOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-      
-      {filteredCars.length > 0 && (
-        <div className="absolute z-10 bg-gray-800 mt-2 w-full rounded-lg shadow-lg max-h-40 overflow-y-auto">
-          {filteredCars.map((car, index) => (
-            <Link to={`/car-details/${car._id}`} key={index} className="block">
-              <div className="p-2 hover:bg-gray-700 cursor-pointer">
-                {car.title}
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+  <input
+    type="text"
+    value={query}
+    onChange={handleSearch}
+    placeholder="Enter 3 Char...."
+    className="bg-gray-700 text-white py-1 md:py-2 pl-8 pr-3 md:pl-10 md:pr-4 rounded-md md:rounded-lg text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-gray-500"
+  />
+  <AiOutlineSearch className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm md:text-base" />
+
+  {filteredCars.length > 0 && (
+    <div className="absolute z-10 bg-gray-800 mt-1 md:mt-2 w-full rounded-md md:rounded-lg shadow-lg max-h-40 overflow-y-auto">
+      {filteredCars.map((car, index) => (
+        <Link to={`/car-details/${car._id}`} key={index} className="block">
+          <div className="p-2 hover:bg-gray-700 cursor-pointer text-sm md:text-base">
+            {car.title}
+          </div>
+        </Link>
+      ))}
     </div>
+  )}
+</div>
+
   );
 };
 
