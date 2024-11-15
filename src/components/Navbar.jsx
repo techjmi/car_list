@@ -15,14 +15,14 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-900 text-white px-4 md:px-10 py-3 shadow-lg">
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="container mx-auto flex justify-between items-center ">
         {/* Logo */}
         <div className="text-lg font-semibold">
           <Link to="/" className="text-white hover:text-gray-300 transition duration-300">MyApp</Link>
         </div>
 
         {/* Search Component */}
-        <div className="hidden sm:block w-1/3 items-start">
+        <div className="flex justify-center items-center">
           <SearchComponent cars={cars} />
         </div>
 
@@ -68,9 +68,9 @@ const Navbar = () => {
           </Link>
           
           {/* Search Component for Mobile */}
-          <div className="relative mt-4">
+          {/* <div className="relative mt-4">
             <SearchComponent cars={cars} />
-          </div>
+          </div> */}
           
           {/* User Profile */}
           <UserProfile />

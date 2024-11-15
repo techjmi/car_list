@@ -22,7 +22,7 @@ const SearchComponent = ({ cars }) => {
   };
 
   return (
-    <div className="relative mt-4">
+    <div className="relative">
       <input
         type="text"
         value={query}
