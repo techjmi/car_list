@@ -103,8 +103,9 @@ const Carform = () => {
       const updatedFormData = { ...formData, images: imageUrls };
 
       const response = await postCar(updatedFormData);
+      // console.log('the form res', response)
 
-      if (response.status === 201) {
+      if (response&&response.status === 201) {
         navigate("/");
       } else {
         setError("Failed to submit form data");

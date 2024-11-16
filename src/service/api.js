@@ -59,7 +59,7 @@ export const postCar = async (data) => {
     const response = await axios.post(`${url}/create`, data, {
       withCredentials: true,
     });
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Error while posting the data:", error.message);
   }
