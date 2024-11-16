@@ -104,7 +104,7 @@ const Carform = () => {
 
       const response = await postCar(updatedFormData);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         navigate("/");
       } else {
         setError("Failed to submit form data");

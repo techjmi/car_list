@@ -43,7 +43,7 @@ const Signup = () => {
         });
         
         // Navigate to the sign-in page after successful signup
-        navigate('/sign-in');
+        navigate('/login');
       } else {
         setError(response.data.message || "Something went wrong. Please try again.");
       }

@@ -2,3 +2,12 @@
   margin: 0;
   padding: 0;
 }
+/* no scrollbar css */
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;    
+}

@@ -15,7 +15,7 @@ import Carform from './components/Carform';
 
 function App() {
   return (
-    <div className=''>
+    // <div>
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -34,7 +34,7 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
-    </div>
+    // </div>
   );
 }
 
